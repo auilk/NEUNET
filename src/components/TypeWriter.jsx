@@ -3,7 +3,7 @@ function TypeWriter({text, fontSize = "1rem", width = 100})
     const length = text.length;
 
     return(
-        <div className="relative">
+        <div className="w-fit h-fit relative">
             <p className="font-jetbrains-mono"
                 style={{
                     width: `${Math.floor(length * width / 100)}ch`,
