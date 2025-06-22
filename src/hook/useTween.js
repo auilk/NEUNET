@@ -32,7 +32,7 @@ function useTween(initialValue)
                 {
                     const elapsed = now - start;
                     const time = Math.min(elapsed / lerp.duration, 1);
-                    setValue(lerp.from + (lerp.to - lerp.from) * time);
+                    lerp.setValue(lerp.from + (lerp.to - lerp.from) * time);
 
                     if (time >= 1) finished.push(key);
                 });
