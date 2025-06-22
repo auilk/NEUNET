@@ -15,12 +15,13 @@ let animReqRef = null;
 function useTween(initialValue)
 {
     const [value, setValue] = useState(initialValue);
+    const valueRef = useRef(initialValue);
     const idRef = useRef(Symbol());
 
     const tweenTo = useCallback((to, duration) =>
     {
         const start = performance.now();
-        lerps.set(idRef.current, { from: value, to, duration, start, setValue });
+        lerps.set(idRef.current, { from: valueRef.current, to, duration, start, setValue });
 
         if (!animReqRef)
         {
@@ -45,6 +46,11 @@ function useTween(initialValue)
 
             animReqRef = requestAnimationFrame(Loop);
         }
+    }, []);
+
+    useEffect(() =>
+    {
+        valueRef.current = value;
     }, [value]);
 
     useEffect(() =>

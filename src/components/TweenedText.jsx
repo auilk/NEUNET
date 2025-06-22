@@ -14,7 +14,6 @@ import useTween from "../hook/useTween";
  * @param {number} [props.duration=1000] - Duration of the tween animation in milliseconds.
  * @returns {JSX.Element} The animated text element positioned and moved according to tweened values.
  */
-
 function TweenedText({ text, startX = 0, startY = 0, targetX = null, targetY = null , duration = 1000})
 {
     const [xVal, xMoveTo] = useTween(startX);
@@ -22,15 +21,15 @@ function TweenedText({ text, startX = 0, startY = 0, targetX = null, targetY = n
 
     useEffect(() =>
     {
-        if (targetX)
+        if (targetX !== null)
         {
             xMoveTo(targetX, duration);
         }
-        if (targetY)
+        if (targetY !== null)
         {
             yMoveTo(targetY, duration);
         }
-    }, [targetX, targetY]);
+    }, [targetX, targetY, duration]);
 
     return (
         <span 
