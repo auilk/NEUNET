@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { NavbarContext } from "./Navbar"
 import TweenedText from "./TweenedText";
 
 /**
@@ -7,6 +8,7 @@ import TweenedText from "./TweenedText";
  *
  * @function Navlink
  * @param {Object} props - The properties object.
+ * @param {"left" | "center" | "right"} [props.position="center"] - Alignment of the link inside the Navbar component.
  * @param {string} props.to - The destination URL or path for the link.
  * @param {string} [props.label="Link"] - The text to display for the link.
  * @param {string} [props.fontSize="10rem"] - The CSS font size for the link text.
@@ -15,8 +17,11 @@ import TweenedText from "./TweenedText";
  * @param {number} [props.duration=1000] - Duration of the animation in milliseconds.
  * @returns {JSX.Element} A styled navigation link with hover animation.
  */
-function Navlink({ to ,label = "Link", fontSize = "10rem", font = "jetbrains-mono", hide = false, duration = 1000 })
+function Navlink({ position = "center", to ,label = "Link", fontSize = "1rem", font = "jetbrains-mono", hide = false, duration = 1000 })
 {
+    const context = useContext(NavbarContext);
+    if (!context) throw new Error("<NavLink> can only be used within <NavBar>.");
+
     const elementRef = useRef(null);
     const [height, setHeight] = useState(0);
 
@@ -28,16 +33,19 @@ function Navlink({ to ,label = "Link", fontSize = "10rem", font = "jetbrains-mon
     return(
         <a
             ref={elementRef}
-            className="font-black overflow-hidden relative cursor-pointer group"
+            className="font-black overflow-hidden relative cursor-pointer group block"
             style={{
                 width: `calc(${fontSize} * 3.1)`,
                 fontFamily: font,
                 fontSize: fontSize,
-                lineHeight: `calc(${fontSize} / 1.45)`
             }}
             href={to}
         >
-            <div className="opacity-0">{label}</div>
+            <div
+                className="opacity-0"
+            >
+                {label}
+            </div>
 
             <div 
                 className="absolute top-0 left-1/2 -translate-x-1/2 flex justify-center items-center gap-0 transition-[gap] w-10 group-hover:gap-[var(--hover-gap)] pointer-events-none"
@@ -50,8 +58,8 @@ function Navlink({ to ,label = "Link", fontSize = "10rem", font = "jetbrains-mon
                     <TweenedText
                         key={index} 
                         text={letter} 
-                        startY={hide ? 0 : index % 2 === 0 ? height + height * 10 / 100 : -height - height * 10 / 100} 
-                        targetY={hide ? index % 2 === 0 ? height + height * 10 / 100 : -height - height * 10 / 100 : 0} 
+                        startY={hide ? 0 : index % 2 === 0 ? height : -height} 
+                        targetY={hide ? index % 2 === 0 ? height : -height : 0} 
                         duration={duration}
                     ></TweenedText>
                 ))}
