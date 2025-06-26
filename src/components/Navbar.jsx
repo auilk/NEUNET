@@ -2,7 +2,7 @@ import React, { createContext } from "react";
 
 const NavbarContext = createContext(false);
 
-function Navbar({ children, gap = "5px", padding = "1.25rem", borderWidth = "2px" })
+function Navbar({ children, gap = "5px" })
 {
     const leftElements = []
     const centerElements = []
@@ -31,10 +31,33 @@ function Navbar({ children, gap = "5px", padding = "1.25rem", borderWidth = "2px
 
     return(
         <NavbarContext.Provider value={true}>
-            <nav className="flex">
-                <div className="flex justify-center items-center flex-[5%]">{leftElements}</div>
-                <div className="flex justify-center items-center flex-[95%]">{centerElements}</div>
-                <div className="flex justify-center items-center flex-[5%]">{rightElements}</div>
+            <nav className="mx-10 py-5 flex border-b-3">
+                <div 
+                    className="flex justify-start items-center flex-[5%]"
+                    style={{
+                        gap: gap
+                    }}
+                >
+                    {leftElements}
+                </div>
+
+                <div 
+                    className="flex justify-center items-center flex-[95%]"
+                    style={{
+                        gap: gap
+                    }}
+                >
+                    {centerElements}
+                </div>
+
+                <div
+                    className="flex justify-end items-center flex-[5%]"
+                    style={{
+                        gap: gap
+                    }}
+                >
+                    {rightElements}
+                </div>
             </nav>
         </NavbarContext.Provider>
     );
