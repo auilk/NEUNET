@@ -22,8 +22,8 @@ function Navlink({ position = "center", to ,label = "Link", fontSize = "1rem", f
     const context = useContext(NavbarContext);
     if (!context) throw new Error("<Navlink> can only be used within <NavBar>.");
 
-    const [height, setHeight] = useState(0);
-    const [width, setWidth] = useState(0);
+    const [height, setHeight] = useState(null);
+    const [width, setWidth] = useState(null);
     
     const elementRef = useRef(null);
 
@@ -56,13 +56,13 @@ function Navlink({ position = "center", to ,label = "Link", fontSize = "1rem", f
                     "--hover-gap": `calc(${fontSize} / 5)` 
                 }}
             >
-                {label.split('').map((letter, index) =>
+                {height && label.split('').map((letter, index) =>
                 (
                     <TweenedText
                         key={index} 
                         text={letter} 
-                        startY={hide ? 0 : index % 2 === 0 ? height : -height} 
-                        targetY={hide ? index % 2 === 0 ? height : -height : 0} 
+                        startY={hide ? index % 2 === 0 ? height : -height : 0}
+                        targetY={hide ? index % 2 === 0 ? height : -height : 0}
                         duration={duration}
                     ></TweenedText>
                 ))}

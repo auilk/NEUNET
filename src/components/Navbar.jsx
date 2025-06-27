@@ -1,12 +1,22 @@
-import React, { createContext } from "react";
+import React, { createContext, useEffect, useRef, useState } from "react";
+import useTween from "../hook/useTween";
 
 const NavbarContext = createContext(false);
 
-function Navbar({ children, gap = "5px" })
+function Navbar({ children, gap = "5px" , reveal = false, duration = 1000})
 {
-    const leftElements = []
-    const centerElements = []
-    const rightElements = []
+    const elementRef = useRef(null);
+
+    const [s, sTweenTo] = useTween(0);
+
+    useEffect(() =>
+    {
+        if (reveal) sTweenTo(1, duration);
+    }, [reveal]);
+
+    const leftElements = [];
+    const centerElements = [];
+    const rightElements = [];
 
     React.Children.forEach(children, (child) =>
     {
@@ -15,7 +25,7 @@ function Navbar({ children, gap = "5px" })
         switch (child.props.position)
         {
             case "left":
-                leftElements.push(child)
+                leftElements.push(child);
                 break;
             case "center":
                 centerElements.push(child);
@@ -31,7 +41,13 @@ function Navbar({ children, gap = "5px" })
 
     return(
         <NavbarContext.Provider value={true}>
-            <nav className="mx-10 py-5 flex border-b-3">
+            <nav
+                ref={elementRef}
+                className="p-5 flex relative after:content-[''] after:w-full after:h-[3px] after:scale-x-[var(--bt-scale)] after:absolute after:bottom-0 after:left-0 after:bg-black"
+                style={{
+                    "--bt-scale": s
+                }}
+            >
                 <div 
                     className="flex justify-start items-center flex-[5%]"
                     style={{
