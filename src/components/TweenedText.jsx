@@ -16,18 +16,18 @@ import useTween from "../hook/useTween";
  */
 function TweenedText({ text, startX = 0, startY = 0, targetX = null, targetY = null , duration = 1000})
 {
-    const [xVal, xMoveTo] = useTween(startX);
-    const [yVal, yMoveTo] = useTween(startY);
+    const [x, xTweenTo] = useTween(startX);
+    const [y, yTweenTo] = useTween(startY);
 
     useEffect(() =>
     {
         if (targetX !== null)
         {
-            xMoveTo(targetX, duration);
+            xTweenTo(targetX, duration);
         }
         if (targetY !== null)
         {
-            yMoveTo(targetY, duration);
+            yTweenTo(targetY, duration);
         }
     }, [targetX, targetY, duration]);
 
@@ -35,8 +35,8 @@ function TweenedText({ text, startX = 0, startY = 0, targetX = null, targetY = n
         <span 
             style={{
                 position: "relative", 
-                top: yVal, 
-                left: xVal
+                top: y, 
+                left: x
             }}
         >
             {text}

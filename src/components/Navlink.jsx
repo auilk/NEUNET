@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useLayoutEffect, useRef, useState } from "react";
 import { NavbarContext } from "./Navbar"
 import TweenedText from "./TweenedText";
 
@@ -27,11 +27,10 @@ function Navlink({ position = "center", to ,label = "Link", fontSize = "1rem", f
     
     const elementRef = useRef(null);
 
-    useEffect(() =>
+    useLayoutEffect(() =>
     {
         setHeight(elementRef.current.offsetHeight);
         setWidth(elementRef.current.children[0].offsetWidth);
-        console.log(elementRef.current.children[0].offsetWidth)
     }, []);
 
     return(
