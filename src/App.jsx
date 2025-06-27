@@ -14,9 +14,11 @@ function App()
           .//NEUNET
         </span>
 
-        <Navlink position="right" label="LINK"></Navlink>
-        <Navlink position="right" label="LINK"></Navlink>
-        <Navlink position="right" label="LINK"></Navlink>
+        <Navlink position="right" label="MISSION"></Navlink>
+        <Navlink position="right" label="PROTOCOL"></Navlink>
+        <Navlink position="right" label="AGENTS"></Navlink>
+        <Navlink position="right" label="TRAINING"></Navlink>
+        <Navlink position="right" label="JOIN"></Navlink>
       </Navbar>
     </header>
   );

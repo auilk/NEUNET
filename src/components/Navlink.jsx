@@ -20,14 +20,18 @@ import TweenedText from "./TweenedText";
 function Navlink({ position = "center", to ,label = "Link", fontSize = "1rem", font = "jetbrains-mono", hide = false, duration = 1000 })
 {
     const context = useContext(NavbarContext);
-    if (!context) throw new Error("<NavLink> can only be used within <NavBar>.");
+    if (!context) throw new Error("<Navlink> can only be used within <NavBar>.");
 
-    const elementRef = useRef(null);
     const [height, setHeight] = useState(0);
+    const [width, setWidth] = useState(0);
+    
+    const elementRef = useRef(null);
 
     useEffect(() =>
     {
         setHeight(elementRef.current.offsetHeight);
+        setWidth(elementRef.current.children[0].offsetWidth);
+        console.log(elementRef.current.children[0].offsetWidth)
     }, []);
 
     return(
@@ -35,17 +39,17 @@ function Navlink({ position = "center", to ,label = "Link", fontSize = "1rem", f
             ref={elementRef}
             className="font-black overflow-hidden relative cursor-pointer group block"
             style={{
-                width: `calc(${fontSize} * 3.1)`,
+                width: `calc(${width}px + ${fontSize} / 5 * ${label.length})`,
                 fontFamily: font,
                 fontSize: fontSize,
             }}
             href={to}
         >
-            <div
+            <span
                 className="opacity-0"
             >
                 {label}
-            </div>
+            </span>
 
             <div 
                 className="absolute top-0 left-1/2 -translate-x-1/2 flex justify-center items-center gap-0 transition-[gap] w-10 group-hover:gap-[var(--hover-gap)] pointer-events-none"
