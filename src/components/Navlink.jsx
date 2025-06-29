@@ -1,6 +1,4 @@
-import { useContext, useLayoutEffect, useRef, useState } from "react";
-import { NavbarContext } from "./Navbar"
-import TweenedText from "./TweenedText";
+import { useLayoutEffect, useRef, useState } from "react";
 
 /**
  * Renders a navigation link with customizable label, font size, and font family.
@@ -19,53 +17,45 @@ import TweenedText from "./TweenedText";
  */
 function Navlink({ position = "center", to ,label = "Link", fontSize = "1rem", font = "jetbrains-mono", hide = false, duration = 1000 })
 {
-    const context = useContext(NavbarContext);
-    if (!context) throw new Error("<Navlink> can only be used within <NavBar>.");
-
-    const [height, setHeight] = useState(null);
-    const [width, setWidth] = useState(null);
+    const [height, setHeight] = useState(0);
+    const [width, setWidth] = useState(0);
     
     const elementRef = useRef(null);
 
     useLayoutEffect(() =>
     {
         setHeight(elementRef.current.offsetHeight);
-        setWidth(elementRef.current.children[0].offsetWidth);
+        setWidth(elementRef.current.offsetWidth);
     }, []);
 
     return(
-        <a
-            ref={elementRef}
-            className="font-black overflow-hidden relative cursor-pointer group block"
-            style={{
-                width: `calc(${width}px + ${fontSize} / 5 * ${label.length})`,
-                fontFamily: font,
-                fontSize: fontSize,
-            }}
-            href={to}
-        >
-            <span
-                className="opacity-0"
-            >
-                {label}
-            </span>
-
+        <a href={to} className="w-fit h-fit overflow-hidden">
             <div 
-                className="absolute top-0 left-1/2 -translate-x-1/2 flex justify-center items-center gap-0 transition-[gap] w-10 group-hover:gap-[var(--hover-gap)] pointer-events-none"
+                className="flex justify-center items-center relative before:content-[''] before:w-10 before:h-full before:absolute before:top-0 before:left-0 before:bg-black before:z-0 after:content-[''] after:w-10 after:h-full after:absolute after:top-0 after:right-0 after:bg-black after:z-0"
                 style={{
-                    "--hover-gap": `calc(${fontSize} / 5)` 
+                    width: width + 30,
+                    height: height + 30
                 }}
             >
-                {height && label.split('').map((letter, index) =>
-                (
-                    <TweenedText
-                        key={index} 
-                        text={letter} 
-                        startY={hide ? index % 2 === 0 ? height : -height : 0}
-                        targetY={hide ? index % 2 === 0 ? height : -height : 0}
-                        duration={duration}
-                    ></TweenedText>
-                ))}
+                <div 
+                    className="bg-white relative z-1"
+                    style={{
+                        width: width,
+                        height: height
+                    }}
+                >
+                    <span
+                        ref={elementRef}
+                        className="font-black absolute top-1/2 left-1/2 -translate-1/2 z-2"
+                        style={{
+                            fontSize: fontSize,
+                            fontFamily: font
+                        }}
+                    >
+                        {label}
+                    </span>
+                </div>
+
             </div>
         </a>
     );
